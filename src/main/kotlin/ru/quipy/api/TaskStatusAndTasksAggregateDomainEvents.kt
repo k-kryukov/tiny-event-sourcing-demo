@@ -36,9 +36,9 @@ class StatusDeletedEvent(
 )
 
 @DomainEvent(name = TASK_STATUS_POSITION_CHANGED_EVENT)
-class StatusPositionChangedEvent(
+class StatusPriorityChangedEvent(
     val statusID: UUID,
-    val position: Int,
+    val priority: Int,
     createdAt: Long = System.currentTimeMillis(),
 ) : Event<TaskStatusAndTasksAggregate>(
     name = TASK_STATUS_POSITION_CHANGED_EVENT,

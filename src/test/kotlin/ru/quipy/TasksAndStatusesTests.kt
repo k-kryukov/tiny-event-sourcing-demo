@@ -14,6 +14,31 @@ import ru.quipy.entities.Color
 import ru.quipy.logic.ProjectAndProjectMembersAggregateState
 import java.util.UUID
 
+val zeroStatus = TaskStatusEntity(
+	name = "CREATED",
+	projectID = UUID.randomUUID(),
+	color = Color.GREEN,
+	priority = 0,
+)
+val firstStatus = TaskStatusEntity(
+	name = "1",
+	projectID = UUID.randomUUID(),
+	color = Color.ORANGE,
+	priority = 0,
+)
+val secondStatus = TaskStatusEntity(
+	name = "2",
+	projectID = UUID.randomUUID(),
+	color = Color.BLUE,
+	priority = 0,
+)
+val thirdStatus = TaskStatusEntity(
+	name = "3",
+	projectID = UUID.randomUUID(),
+	color = Color.RED,
+	priority = 0,
+)
+
 @SpringBootTest
 class TasksAndStatusesTests {
 
@@ -41,14 +66,14 @@ class TasksAndStatusesTests {
 		Assertions.assertEquals(1, taskAggregate!!.getStatuses().size)
 		Assertions.assertEquals("CREATED", taskAggregate.getStatuses()[0].name)
 		Assertions.assertEquals(Color.GREEN, taskAggregate.getStatuses()[0].color)
-		Assertions.assertEquals(1, taskAggregate.getStatuses()[0].position)
+		Assertions.assertEquals(1, taskAggregate.getStatuses()[0].priority)
 		Assertions.assertEquals(0, taskAggregate.getTasks().size)
 
 		val defStatus = taskController.getTaskStatus(taskAggregate.getId(), taskAggregate.getStatuses()[0].id)
 		Assertions.assertNotNull(defStatus)
 		Assertions.assertEquals("CREATED", defStatus!!.name)
 		Assertions.assertEquals(Color.GREEN, defStatus.color)
-		Assertions.assertEquals(1, defStatus.position)
+		Assertions.assertEquals(1, defStatus.priority)
 
 		val newStatus = taskController.createTaskStatus(
 			taskAggregate.getId(),
@@ -60,7 +85,7 @@ class TasksAndStatusesTests {
 		Assertions.assertNotNull(newStatusAgg)
 		Assertions.assertEquals("Completed", newStatusAgg!!.name)
 		Assertions.assertEquals(Color.ORANGE, newStatusAgg.color)
-		Assertions.assertEquals(2, newStatusAgg.position)
+		Assertions.assertEquals(2, newStatusAgg.priority)
 
 		val task = taskController.createTask(
 			taskAggregate.getId(),
@@ -110,13 +135,13 @@ class TasksAndStatusesTests {
 		Assertions.assertEquals(1, agg!!.getStatuses().size)
 		Assertions.assertEquals("CREATED", agg.getStatuses()[0].name)
 		Assertions.assertEquals(Color.GREEN, agg.getStatuses()[0].color)
-		Assertions.assertEquals(1, agg.getStatuses()[0].position)
+		Assertions.assertEquals(1, agg.getStatuses()[0].priority)
 		Assertions.assertEquals(1, agg.getTasks().size)
 	}
 
 
 	@Test
-	fun statusesSwapPositions() {
+	fun statusesSwapPriorities() {
 		val owner = createUser("Owner")
 		val user = createUser("ProjectMember")
 		val project = createProjectWithProjectMember(owner.userID, user.userID)
@@ -145,7 +170,7 @@ class TasksAndStatusesTests {
 		validateStatus(taskAggregate.getId(), secondID, secondStatus, 3)
 		validateStatus(taskAggregate.getId(), thirdID, thirdStatus, 4)
 
-		taskController.changeTaskStatusPosition(
+		taskController.changeTaskStatusPriority(
 			taskAggregate.getId(),
 			firstID,
 			4
@@ -155,7 +180,7 @@ class TasksAndStatusesTests {
 		validateStatus(taskAggregate.getId(), secondID, secondStatus, 2)
 		validateStatus(taskAggregate.getId(), thirdID, thirdStatus, 3)
 
-		taskController.changeTaskStatusPosition(
+		taskController.changeTaskStatusPriority(
 			taskAggregate.getId(),
 			thirdID,
 			1
@@ -171,11 +196,11 @@ class TasksAndStatusesTests {
 		validateStatus(taskAggregate.getId(), secondID, secondStatus, 2)
 	}
 
-	private fun validateStatus(aggID: UUID, actualID: UUID, expectedStatus: TaskStatusEntity, expectedPosition: Int) {
+	private fun validateStatus(aggID: UUID, actualID: UUID, expectedStatus: TaskStatusEntity, expectedPriority: Int) {
 		val status = taskController.getTaskStatus(aggID, actualID)
 		Assertions.assertEquals(expectedStatus.color, status!!.color)
 		Assertions.assertEquals(expectedStatus.name, status.name)
-		Assertions.assertEquals(expectedPosition, status.position)
+		Assertions.assertEquals(expectedPriority, status.priority)
 	}
 
 	private fun createStatus(aggregateID: UUID, status: TaskStatusEntity) : TaskStatusCreatedEvent {
@@ -196,41 +221,15 @@ class TasksAndStatusesTests {
 	}
 
 	private fun createProjectWithProjectMember(ownerID: UUID, userID: UUID): ProjectAndProjectMembersAggregateState? {
-		val response = projectController.createProject(
+		val projectID = projectController.createProject(
 			"testProject",
 			ownerID
-		)
-		val newProjectMember = projectController.createProjectMember(
-			response.projectID,
+		).projectID
+		projectController.createProjectMember(
+			projectID,
 			userID
 		)
-		return projectController.getProject(response.projectID)
-	}
 
-	private companion object {
-		val zeroStatus = TaskStatusEntity(
-			name = "CREATED",
-			projectID = UUID.randomUUID(),
-			color = Color.GREEN,
-			position = 0,
-		)
-		val firstStatus = TaskStatusEntity(
-			name = "1",
-			projectID = UUID.randomUUID(),
-			color = Color.ORANGE,
-			position = 0,
-		)
-		val secondStatus = TaskStatusEntity(
-			name = "2",
-			projectID = UUID.randomUUID(),
-			color = Color.BLUE,
-			position = 0,
-		)
-		val thirdStatus = TaskStatusEntity(
-			name = "3",
-			projectID = UUID.randomUUID(),
-			color = Color.RED,
-			position = 0,
-		)
+		return projectController.getProject(projectID)
 	}
 }

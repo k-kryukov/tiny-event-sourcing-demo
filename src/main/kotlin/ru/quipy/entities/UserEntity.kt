@@ -2,10 +2,9 @@ package ru.quipy.entities
 
 import java.util.UUID
 
-data class TaskStatusEntity(
+data class UserEntity(
     val id: UUID = UUID.randomUUID(),
+    val login: String,
     val name: String,
-    val projectID: UUID,
-    val color: Color,
-    var priority: Int,
+    val password: String,
 )

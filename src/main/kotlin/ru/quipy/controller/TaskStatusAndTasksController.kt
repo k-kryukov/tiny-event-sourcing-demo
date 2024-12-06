@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import ru.quipy.api.ProjectAndProjectMembersAggregate
 import ru.quipy.api.StatusChangedForTaskEvent
 import ru.quipy.api.StatusDeletedEvent
-import ru.quipy.api.StatusPositionChangedEvent
+import ru.quipy.api.StatusPriorityChangedEvent
 import ru.quipy.api.TaskAssigneeAddedEvent
 import ru.quipy.api.TaskCreatedEvent
 import ru.quipy.api.TaskStatusAndTasksAggregate
@@ -17,7 +17,7 @@ import ru.quipy.api.TaskStatusCreatedEvent
 import ru.quipy.api.TaskUpdatedEvent
 import ru.quipy.commands.addTaskAssignee
 import ru.quipy.commands.changeStatusForTask
-import ru.quipy.commands.changeTaskStatusPosition
+import ru.quipy.commands.changeTaskStatusPriority
 import ru.quipy.commands.createTask
 import ru.quipy.commands.createTaskStatus
 import ru.quipy.commands.deleteTaskStatus
@@ -79,14 +79,14 @@ class TaskStatusAndTasksController(
         }
     }
 
-    @PostMapping("/tasks/{taskAggregateID}/status/{statusID}/change-position")
-    fun changeTaskStatusPosition(
+    @PostMapping("/tasks/{taskAggregateID}/status/{statusID}/change-priority")
+    fun changeTaskStatusPriority(
         @PathVariable taskAggregateID: UUID,
         @PathVariable statusID: UUID,
-        @RequestParam position: Int,
-    ) : StatusPositionChangedEvent {
+        @RequestParam priority: Int,
+    ) : StatusPriorityChangedEvent {
         return taskEsService.update(taskAggregateID) {
-            it.changeTaskStatusPosition(statusID, position)
+            it.changeTaskStatusPriority(statusID, priority)
         }
     }
 
@@ -105,7 +105,7 @@ class TaskStatusAndTasksController(
         @PathVariable taskAggregateID: UUID,
         @RequestParam name: String,
         @RequestParam color: String,
-        @RequestParam position: Int?
+        @RequestParam priority: Int?
     ) : TaskStatusCreatedEvent {
         return taskEsService.update(taskAggregateID) {
             it.createTaskStatus(

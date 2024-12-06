@@ -35,19 +35,19 @@ fun TaskStatusAndTasksAggregateState.changeStatusForTask(
     )
 }
 
-fun TaskStatusAndTasksAggregateState.changeTaskStatusPosition(
+fun TaskStatusAndTasksAggregateState.changeTaskStatusPriority(
     statusID: UUID,
-    position: Int,
-): StatusPositionChangedEvent {
+    priority: Int,
+): StatusPriorityChangedEvent {
     if (!statuses.containsKey(statusID))
         throw IllegalArgumentException("Status $statusID does not exist")
 
-    if (position > statuses.size || position < 1)
-        throw IllegalArgumentException("Position $position is out of bounds")
+    if (priority > statuses.size || priority < 1)
+        throw IllegalArgumentException("Priority $priority is out of bounds")
 
-    return StatusPositionChangedEvent(
+    return StatusPriorityChangedEvent(
         statusID = statusID,
-        position = position,
+        priority = priority,
     )
 }
 

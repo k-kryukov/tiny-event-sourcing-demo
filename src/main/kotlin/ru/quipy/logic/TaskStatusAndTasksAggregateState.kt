@@ -2,7 +2,7 @@ package ru.quipy.logic
 
 import ru.quipy.api.StatusChangedForTaskEvent
 import ru.quipy.api.StatusDeletedEvent
-import ru.quipy.api.StatusPositionChangedEvent
+import ru.quipy.api.StatusPriorityChangedEvent
 import ru.quipy.api.TaskAssigneeAddedEvent
 import ru.quipy.api.TaskCreatedEvent
 import ru.quipy.api.TaskStatusAndTasksAggregate
@@ -45,7 +45,7 @@ class TaskStatusAndTasksAggregateState: AggregateState<UUID, TaskStatusAndTasksA
             name = event.statusName,
             color = event.color,
             projectID = projectID,
-            position = statuses.size + 1
+            priority = statuses.size + 1
         )
         updatedAt = event.createdAt
     }
@@ -55,9 +55,9 @@ class TaskStatusAndTasksAggregateState: AggregateState<UUID, TaskStatusAndTasksA
         val status = statuses[event.statusID] ?: throw NullPointerException("Status ${event.statusID} does not exist")
 
         statuses.entries.forEach {
-            if (it.value.position > status.position) {
+            if (it.value.priority > status.priority) {
                 val tmp = it.value
-                tmp.position -= 1
+                tmp.priority -= 1
                 statuses[it.key] = tmp
             }
         }
@@ -67,30 +67,30 @@ class TaskStatusAndTasksAggregateState: AggregateState<UUID, TaskStatusAndTasksA
     }
 
     @StateTransitionFunc
-    fun statusPositionChangedApply(event: StatusPositionChangedEvent) {
+    fun statusPriorityChangedApply(event: StatusPriorityChangedEvent) {
         val status = statuses[event.statusID] ?: throw NullPointerException("Status ${event.statusID} does not exist")
 
-        val oldPosition = status.position
+        val oldPriority = status.priority
 
-        if (event.position < oldPosition) {
+        if (event.priority < oldPriority) {
             statuses.entries.forEach {
-                if (it.value.position >= event.position && it.value.position < oldPosition) {
+                if (it.value.priority >= event.priority && it.value.priority < oldPriority) {
                     val tmp = it.value
-                    tmp.position += 1
+                    tmp.priority += 1
                     statuses[it.key] = tmp
                 }
             }
         } else {
             statuses.entries.forEach {
-                if (it.value.position <= event.position && it.value.position > oldPosition) {
+                if (it.value.priority <= event.priority && it.value.priority > oldPriority) {
                     val tmp = it.value
-                    tmp.position -= 1
+                    tmp.priority -= 1
                     statuses[it.key] = tmp
                 }
             }
         }
 
-        status.position = event.position
+        status.priority = event.priority
         statuses[event.statusID] = status
         updatedAt = event.createdAt
     }

@@ -6,39 +6,44 @@ import ru.quipy.api.UserUpdatedEvent
 import ru.quipy.core.annotations.StateTransitionFunc
 import ru.quipy.domain.AggregateState
 import java.util.UUID
+import ru.quipy.entities.UserEntity
 
 class UserAggregateState : AggregateState<UUID, UserAggregate> {
-    private lateinit var id: UUID
-    private lateinit var login: String
-    private lateinit var name: String
-    private lateinit var password: String
+    private lateinit var user: UserEntity
 
     var createdAt: Long = System.currentTimeMillis()
     var updatedAt: Long = System.currentTimeMillis()
 
-    override fun getId() = id
+    override fun getId() = user.id
 
-    fun getLogin() = login
+    fun getLogin() = user.login
 
-    fun getName() = name
+    fun getName() = user.name
 
-    fun getPassword() = password
+    fun getPassword() = user.password
 
     @StateTransitionFunc
     fun userCreatedApply(event: UserCreatedEvent) {
-        id = event.userID
-        name = event.userName
-        login = event.login
-        password = event.password
+        user = UserEntity(
+            id = event.userID,
+            login = event.login,
+            name = event.userName,
+            password = event.password
+        )
+
         createdAt = event.createdAt
         updatedAt = event.createdAt
     }
 
     @StateTransitionFunc
     fun userUpdatedApply(event: UserUpdatedEvent) {
-        name = event.userName
-        login = event.login
-        password = event.password
+        user = UserEntity(
+            id = event.userID,
+            login = event.login,
+            name = event.userName,
+            password = event.password
+        )
+
         updatedAt = event.createdAt
     }
 }
