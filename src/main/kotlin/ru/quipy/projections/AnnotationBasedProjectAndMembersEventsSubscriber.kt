@@ -3,8 +3,11 @@ package ru.quipy.projections
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import ru.quipy.api.TaskCreatedEvent
+import ru.quipy.api.TaskUpdatedEvent
 import ru.quipy.api.UserAggregate
 import ru.quipy.streams.annotation.AggregateSubscriber
+import ru.quipy.streams.annotation.SubscribeEvent
 
 @Service
 @AggregateSubscriber(
@@ -14,15 +17,13 @@ class AnnotationBasedProjectAndProjectMembersEventsSubscriber {
 
     val logger: Logger = LoggerFactory.getLogger(AnnotationBasedProjectAndProjectMembersEventsSubscriber::class.java)
 
-//    TODO: сделать
-//
-//    @SubscribeEvent
-//    fun taskCreatedSubscriber(event: TaskCreatedEvent) {
-//        logger.info("Task created: {}", event.taskName)
-//    }
-//
-//    @SubscribeEvent
-//    fun tagCreatedSubscriber(event: TagCreatedEvent) {
-//        logger.info("Tag created: {}", event.tagName)
-//    }
+    @SubscribeEvent
+    fun taskCreatedSubscriber(event: TaskCreatedEvent) {
+//        TODO("taskCreatedSubscriber")
+    }
+
+    @SubscribeEvent
+    fun tagCreatedSubscriber(event: TaskUpdatedEvent) {
+//        TODO("tagCreatedSubscriber")
+    }
 }

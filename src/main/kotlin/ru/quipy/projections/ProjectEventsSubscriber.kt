@@ -19,7 +19,6 @@ class ProjectEventsSubscriber {
     fun init() {
 //        subscriptionsManager.createSubscriber(ProjectAggregate::class, "event-logger") {
 //
-//            TODO: добавить наши ивенты, убрать эти
 //            `when`(TaskCreatedEvent::class) { event ->
 //                logger.info("Task created: {}", event.taskName)
 //            }
