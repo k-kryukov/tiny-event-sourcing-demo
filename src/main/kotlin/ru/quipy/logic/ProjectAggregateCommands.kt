@@ -24,6 +24,10 @@ fun ProjectAggregateState.addTask(name: String, description: String): TaskCreate
 }
 
 fun ProjectAggregateState.editTask(taskID: UUID, name: String, description: String): TaskEditedEvent {
+    if (!tasks.containsKey(taskID)) {
+        throw IllegalArgumentException("Task status already exists: $name")
+    }
+
     return TaskEditedEvent(projectId = this.getId(), taskId = taskID, taskName = name, description = description)
 }
 

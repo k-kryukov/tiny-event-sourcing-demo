@@ -50,10 +50,6 @@ class ProjectAggregateState : AggregateState<UUID, ProjectAggregate> {
 
     @StateTransitionFunc
     fun statusPriorityUpdatedApply(event: StatusPriorityUpdatedEvent) {
-        if (statuses.get(event.statusId) == null) {
-            TODO("wtf")
-        }
-
         statuses[event.statusId] = StatusEntity(
             id = statuses[event.statusId]!!.id,
             name = statuses[event.statusId]!!.name,
@@ -67,17 +63,13 @@ class ProjectAggregateState : AggregateState<UUID, ProjectAggregate> {
         tasks[event.taskId] = TaskEntity(
             id = event.taskId,
             name = event.taskName,
-            statusAssigned = withDefaultStatusUuid(),
+            statusAssigned = getDefaultStatusID(),
             assigneesAssigned = mutableSetOf<UUID>())
         updatedAt = createdAt
     }
 
     @StateTransitionFunc
     fun taskEditedApply(event: TaskEditedEvent) {
-        if (tasks[event.taskId] == null) {
-            TODO("throw")
-        }
-
         tasks[event.taskId] = TaskEntity(
             id = event.taskId,
             name = event.taskName,
@@ -123,14 +115,13 @@ class ProjectAggregateState : AggregateState<UUID, ProjectAggregate> {
         return mutableMapOf<UUID, StatusEntity>(id to defaultStatus)
     }
 
-    fun withDefaultStatusUuid() : UUID {
+    fun getDefaultStatusID() : UUID {
         if (statuses.values.any { it.name == "Created" }) {
             val defaultStatus = statuses.values.first { it.name == "Created" }
             return defaultStatus.id
         }
-        else {
-            TODO("wtf")
-        }
+        else
+            throw IllegalStateException("Cannot find Created status")
     }
 
     fun withAuthorProjectMember(authorUsername: String) : MutableMap<UUID, ProjectMemberEntity> {
