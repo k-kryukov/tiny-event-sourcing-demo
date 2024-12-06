@@ -8,6 +8,6 @@ class DemoApplicationTests {
 
 	@Test
 	fun contextLoads() {
+		println("Hello, world!")
 	}
-
 }
