@@ -5,6 +5,7 @@ import ru.quipy.api.ProjectCreatedEvent
 import ru.quipy.api.TaskStatusCreatedForProjectEvent
 import ru.quipy.logic.ProjectAndProjectMembersAggregateState
 import java.util.*
+import ru.quipy.api.ProjectUpdatedEvent
 
 fun ProjectAndProjectMembersAggregateState.addStatusAggregateID(
     projectID: UUID,
@@ -40,6 +41,13 @@ fun ProjectAndProjectMembersAggregateState.createProjectMember(
 
 fun ProjectAndProjectMembersAggregateState.createProject(id: UUID, name: String): ProjectCreatedEvent {
     return ProjectCreatedEvent(
+        projectID = id,
+        projectName = name,
+    )
+}
+
+fun ProjectAndProjectMembersAggregateState.updateProject(id: UUID, name: String): ProjectUpdatedEvent {
+    return ProjectUpdatedEvent(
         projectID = id,
         projectName = name,
     )

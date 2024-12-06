@@ -5,6 +5,7 @@ import ru.quipy.domain.Event
 import java.util.UUID
 
 const val PROJECT_CREATED_EVENT = "PROJECT_CREATED_EVENT"
+const val PROJECT_UPDATED_EVENT = "PROJECT_UPDATED_EVENT"
 const val MEMBER_CREATED_EVENT = "MEMBER_CREATED_EVENT"
 
 @DomainEvent(name = PROJECT_CREATED_EVENT)
@@ -16,6 +17,17 @@ class ProjectCreatedEvent(
     name = PROJECT_CREATED_EVENT,
     createdAt = createdAt,
 )
+
+@DomainEvent(name = PROJECT_UPDATED_EVENT)
+class ProjectUpdatedEvent(
+    val projectID: UUID,
+    val projectName: String,
+    createdAt: Long = System.currentTimeMillis(),
+) : Event<ProjectAndProjectMembersAggregate>(
+    name = PROJECT_UPDATED_EVENT,
+    createdAt = createdAt,
+)
+
 
 @DomainEvent(name = TASK_STATUS_CREATED_EVENT)
 class TaskStatusCreatedForProjectEvent(

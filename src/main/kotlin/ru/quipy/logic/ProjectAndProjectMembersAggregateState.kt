@@ -1,14 +1,11 @@
 package ru.quipy.logic
 
-import ru.quipy.api.ProjectMemberCreatedEvent
-import ru.quipy.api.ProjectAndProjectMembersAggregate
-import ru.quipy.api.ProjectCreatedEvent
-import ru.quipy.api.TaskStatusCreatedForProjectEvent
 import ru.quipy.core.annotations.StateTransitionFunc
 import ru.quipy.domain.AggregateState
 import ru.quipy.entities.ProjectMemberEntity
 import ru.quipy.entities.ProjectEntity
 import java.util.UUID
+import ru.quipy.api.*
 
 class ProjectAndProjectMembersAggregateState : AggregateState<UUID, ProjectAndProjectMembersAggregate> {
 
@@ -38,6 +35,16 @@ class ProjectAndProjectMembersAggregateState : AggregateState<UUID, ProjectAndPr
             name = event.projectName,
         )
         createdAt = event.createdAt
+        updatedAt = event.createdAt
+    }
+
+    @StateTransitionFunc
+    fun projectUpdatedApply(event: ProjectUpdatedEvent) {
+        project = ProjectEntity(
+            id = event.projectID,
+            name = event.projectName,
+        )
+
         updatedAt = event.createdAt
     }
 

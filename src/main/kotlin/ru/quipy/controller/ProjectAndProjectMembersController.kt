@@ -7,10 +7,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.quipy.api.*
-import ru.quipy.commands.addStatusAggregateID
-import ru.quipy.commands.createProjectMember
-import ru.quipy.commands.createProject
-import ru.quipy.commands.createTaskStatus
 import ru.quipy.core.EventSourcingService
 import ru.quipy.entities.ProjectMemberEntity
 import ru.quipy.entities.Color
@@ -18,6 +14,7 @@ import ru.quipy.logic.ProjectAndProjectMembersAggregateState
 import ru.quipy.logic.TaskStatusAndTasksAggregateState
 import ru.quipy.logic.UserAggregateState
 import java.util.UUID
+import ru.quipy.commands.*
 
 @RestController
 @RequestMapping("/project")
@@ -59,6 +56,16 @@ class ProjectAndProjectMembersController(
         projectEsService.update(response.projectID) {
             it.addStatusAggregateID(response.projectID, taskResponse.aggregateID)
         }
+
+        return response
+    }
+
+    @PostMapping("/update")
+    fun updateProject(
+        @RequestParam id: UUID,
+        @RequestParam name: String,
+    ) : ProjectUpdatedEvent {
+        val response = projectEsService.update(id) { it.updateProject(id, name) }
 
         return response
     }

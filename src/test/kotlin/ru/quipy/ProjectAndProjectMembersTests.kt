@@ -73,4 +73,23 @@ class ProjectAndProjectMembersTests {
 		)
 		Assertions.assertNull(memberNullResponse)
 	}
+
+	@Test
+	fun editProject() {
+		val owner = userController.createUser(
+			"Owner",
+			"Owner",
+			"testPassword"
+		)
+		val project = projectController.createProject(
+			"testProject",
+			owner.userID
+		)
+		Assertions.assertEquals(1, project.version)
+		Assertions.assertEquals("testProject", project.projectName)
+
+		projectController.updateProject(project.projectID, "testProject1")
+		val response = projectController.getProject(project.projectID)
+		Assertions.assertEquals("testProject1", response?.getName())
+	}
 }
