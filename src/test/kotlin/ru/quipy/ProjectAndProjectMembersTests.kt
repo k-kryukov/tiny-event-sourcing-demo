@@ -1,13 +1,12 @@
 package ru.quipy
 
-import java.util.UUID
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import ru.quipy.api.UserCreatedEvent
-import ru.quipy.controller.UserController
 import ru.quipy.controller.ProjectAndProjectMembersController
+import ru.quipy.controller.UserController
+import java.util.*
 
 @SpringBootTest
 class ProjectAndProjectMembersTests {

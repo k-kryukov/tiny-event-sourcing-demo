@@ -1,33 +1,14 @@
 package ru.quipy.controller
 
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
-import ru.quipy.api.ProjectAndProjectMembersAggregate
-import ru.quipy.api.StatusChangedForTaskEvent
-import ru.quipy.api.StatusDeletedEvent
-import ru.quipy.api.StatusPriorityChangedEvent
-import ru.quipy.api.TaskAssigneeAddedEvent
-import ru.quipy.api.TaskCreatedEvent
-import ru.quipy.api.TaskStatusAndTasksAggregate
-import ru.quipy.api.TaskStatusCreatedEvent
-import ru.quipy.api.TaskUpdatedEvent
-import ru.quipy.commands.addTaskAssignee
-import ru.quipy.commands.changeStatusForTask
-import ru.quipy.commands.changeTaskStatusPriority
-import ru.quipy.commands.createTask
-import ru.quipy.commands.createTaskStatus
-import ru.quipy.commands.deleteTaskStatus
-import ru.quipy.commands.updateTask
+import org.springframework.web.bind.annotation.*
+import ru.quipy.api.*
+import ru.quipy.commands.*
 import ru.quipy.core.EventSourcingService
+import ru.quipy.entities.Color
 import ru.quipy.entities.TaskEntity
 import ru.quipy.entities.TaskStatusEntity
-import ru.quipy.entities.Color
 import ru.quipy.logic.TaskStatusAndTasksAggregateState
-import java.util.UUID
+import java.util.*
 
 @RestController
 class TaskStatusAndTasksController(

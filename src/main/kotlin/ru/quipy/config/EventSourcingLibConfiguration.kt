@@ -4,15 +4,9 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import ru.quipy.api.ProjectMemberCreatedEvent
 import ru.quipy.api.ProjectAndProjectMembersAggregate
-import ru.quipy.api.ProjectCreatedEvent
-import ru.quipy.api.TaskCreatedEvent
 import ru.quipy.api.TaskStatusAndTasksAggregate
-import ru.quipy.api.TaskStatusCreatedEvent
-import ru.quipy.api.TaskUpdatedEvent
 import ru.quipy.api.UserAggregate
-import ru.quipy.api.UserCreatedEvent
 import ru.quipy.core.AggregateRegistry
 import ru.quipy.core.EventSourcingServiceFactory
 import ru.quipy.logic.ProjectAndProjectMembersAggregateState
@@ -21,7 +15,7 @@ import ru.quipy.logic.UserAggregateState
 import ru.quipy.projections.AnnotationBasedUserEventsSubscriber
 import ru.quipy.streams.AggregateEventStreamManager
 import ru.quipy.streams.AggregateSubscriptionsManager
-import java.util.UUID
+import java.util.*
 import javax.annotation.PostConstruct
 
 /**
@@ -63,7 +57,7 @@ class EventSourcingLibConfiguration {
     private lateinit var aggregateRegistry: AggregateRegistry
 
     @Autowired
-    private lateinit var subscriptionsManager : AggregateSubscriptionsManager
+    private lateinit var subscriptionsManager: AggregateSubscriptionsManager
 
     /**
      * Use this object to create/update the aggregate
