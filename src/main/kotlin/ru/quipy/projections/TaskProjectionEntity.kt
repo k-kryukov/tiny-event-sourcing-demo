@@ -1,14 +1,14 @@
-package ru.quipy.entities
+package ru.quipy.projections
 
-import java.util.UUID
+import java.util.*
 import javax.persistence.Entity
 import javax.persistence.Id
 
 @Entity
-data class UserEntity(
+data class TaskProjectionEntity(
     @Id
     val id: UUID = UUID.randomUUID(),
-    var login: String,
     var name: String,
-    var password: String,
+    var description: String,
+    var statusID: UUID,
 )

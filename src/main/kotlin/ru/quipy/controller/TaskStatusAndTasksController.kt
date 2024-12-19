@@ -86,7 +86,7 @@ class TaskStatusAndTasksController(
         @PathVariable taskAggregateID: UUID,
         @RequestParam name: String,
         @RequestParam color: String,
-        @RequestParam priority: Int?
+        @RequestParam projectID: UUID
     ) : TaskStatusCreatedEvent {
         return taskEsService.update(taskAggregateID) {
             it.createTaskStatus(
@@ -94,7 +94,7 @@ class TaskStatusAndTasksController(
                 name,
                 taskAggregateID,
                 Color.valueOf(color),
-                null
+                projectID
             )
         }
     }

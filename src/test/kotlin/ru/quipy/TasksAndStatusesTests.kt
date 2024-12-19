@@ -77,7 +77,7 @@ class TasksAndStatusesTests {
 			taskAggregate.getId(),
 			"Completed",
 			"ORANGE",
-			null
+			project.getId()
 		)
 		val newStatusAgg = taskController.getTaskStatus(taskAggregate.getId(), newStatus.statusID)
 		Assertions.assertNotNull(newStatusAgg)
@@ -150,14 +150,17 @@ class TasksAndStatusesTests {
 
 		val firstID = createStatus(
 			project.getStatusesAndTasksAggregateId(),
+			project.getId(),
 			firstStatus
 		).statusID
 		val secondID = createStatus(
 			project.getStatusesAndTasksAggregateId(),
+			project.getId(),
 			secondStatus
 		).statusID
 		val thirdID = createStatus(
 			project.getStatusesAndTasksAggregateId(),
+			project.getId(),
 			thirdStatus
 		).statusID
 
@@ -201,12 +204,12 @@ class TasksAndStatusesTests {
 		Assertions.assertEquals(expectedPriority, status.priority)
 	}
 
-	private fun createStatus(aggregateID: UUID, status: TaskStatusEntity) : TaskStatusCreatedEvent {
+	private fun createStatus(aggregateID: UUID, projectID: UUID, status: TaskStatusEntity) : TaskStatusCreatedEvent {
 		return taskController.createTaskStatus(
 			aggregateID,
 			status.name,
 			status.color.name,
-			null
+			projectID
 		)
 	}
 

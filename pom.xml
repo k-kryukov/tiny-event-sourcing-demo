@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupID>org.springframework.boot</groupID>
-		<artifactID>spring-boot-starter-parent</artifactID>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupID>ru.quipy</groupID>
-	<artifactID>demo</artifactID>
+	<groupId>ru.quipy</groupId>
+	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo</name>
 	<description>Demo project for Tiny Event Sourcing lib</description>
@@ -20,49 +20,42 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupID>org.springframework.boot</groupID>
-			<artifactID>spring-boot-starter-data-mongodb</artifactID>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-			<groupID>org.springframework.boot</groupID>
-			<artifactID>spring-boot-starter-web</artifactID>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupID>com.fasterxml.jackson.module</groupID>
-			<artifactID>jackson-module-kotlin</artifactID>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-kotlin</artifactId>
 		</dependency>
 		<dependency>
-			<groupID>org.jetbrains.kotlin</groupID>
-			<artifactID>kotlin-reflect</artifactID>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-reflect</artifactId>
 		</dependency>
 		<dependency>
-			<groupID>org.jetbrains.kotlin</groupID>
-			<artifactID>kotlin-stdlib-jdk8</artifactID>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib-jdk8</artifactId>
 		</dependency>
-
 		<dependency>
-			<groupID>org.springframework.boot</groupID>
-			<artifactID>spring-boot-starter-test</artifactID>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupID>ru.quipy</groupID>
-			<artifactID>tiny-event-sourcing-spring-boot-starter</artifactID>
+			<groupId>ru.quipy</groupId>
+			<artifactId>tiny-event-sourcing-spring-boot-starter</artifactId>
 			<version>${tiny.es.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupID>ru.quipy</groupID>
-			<artifactID>tiny-postgres-event-store-spring-boot-starter</artifactID>
+			<groupId>ru.quipy</groupId>
+			<artifactId>tiny-postgres-event-store-spring-boot-starter</artifactId>
 			<version>${tiny.es.version}</version>
 		</dependency>
-
-<!--		<dependency>-->
-<!--			<groupID>ru.quipy</groupID>-->
-<!--			<artifactID>tiny-mongo-event-store-spring-boot-starter</artifactID>-->
-<!--			<version>${tiny.es.version}</version>-->
-<!--		</dependency>-->
 	</dependencies>
 
 	<build>
@@ -70,12 +63,12 @@
 		<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 		<plugins>
 			<plugin>
-				<groupID>org.springframework.boot</groupID>
-				<artifactID>spring-boot-maven-plugin</artifactID>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupID>org.jetbrains.kotlin</groupID>
-				<artifactID>kotlin-maven-plugin</artifactID>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-maven-plugin</artifactId>
 				<configuration>
 					<args>
 						<arg>-Xjsr305=strict</arg>
@@ -86,8 +79,8 @@
 				</configuration>
 				<dependencies>
 					<dependency>
-						<groupID>org.jetbrains.kotlin</groupID>
-						<artifactID>kotlin-maven-allopen</artifactID>
+						<groupId>org.jetbrains.kotlin</groupId>
+						<artifactId>kotlin-maven-allopen</artifactId>
 						<version>${kotlin.version}</version>
 					</dependency>
 				</dependencies>
