@@ -33,6 +33,11 @@ class TaskStatusAndTasksProjection(
                     )
                 }
             }
+            `when`(StatusDeletedEvent::class) { event ->
+                withContext(Dispatchers.IO) {
+                    taskStatusRepository.deleteById(event.statusID)
+                }
+            }
 
             `when`(TaskCreatedEvent::class) { event ->
                 withContext(Dispatchers.IO) {

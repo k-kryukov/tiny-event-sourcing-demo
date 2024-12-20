@@ -47,17 +47,17 @@ class ProjectAndProjectMembersProjection(
         }
     }
 
-    fun findProject(projectID : UUID) : ProjectEntity? {
+    fun findProject(projectID: UUID): ProjectEntity? {
         return projectRepository.findByIdOrNull(projectID)
     }
 
     fun resolveProjectMembersByProject(projectID: UUID): List<ProjectMemberEntity> {
-        return projectMemberRepository.findByProjectID(projectID)
+        return projectMemberRepository.findAllByProjectID(projectID)
     }
 
     fun resolveProjectsByUser(userID: UUID): List<ProjectEntity> {
         return projectRepository.findAllById(
-            projectMemberRepository.findByUserID(userID).map { member -> member.projectID }
+            projectMemberRepository.findAllByUserID(userID).map { member -> member.projectID }
         )
     }
 }

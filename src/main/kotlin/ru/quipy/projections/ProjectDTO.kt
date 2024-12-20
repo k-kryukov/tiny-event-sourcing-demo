@@ -10,7 +10,7 @@ data class ProjectDTO(
     val taskStatuses: List<TaskStatusDTO> = mutableListOf(),
 )
 
-fun ProjectEntity.toDto(members: List<ProjectMemberDTO>, statuses: List<TaskStatusDTO>) : ProjectDTO {
+fun ProjectEntity.toDto(members: List<ProjectMemberDTO>, statuses: List<TaskStatusDTO>): ProjectDTO {
     return ProjectDTO(
         this.id,
         this.name,

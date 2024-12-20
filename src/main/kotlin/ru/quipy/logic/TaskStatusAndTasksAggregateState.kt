@@ -14,7 +14,7 @@ import ru.quipy.entities.TaskEntity
 import ru.quipy.entities.TaskStatusEntity
 import java.util.UUID
 
-class TaskStatusAndTasksAggregateState: AggregateState<UUID, TaskStatusAndTasksAggregate> {
+class TaskStatusAndTasksAggregateState : AggregateState<UUID, TaskStatusAndTasksAggregate> {
 
     private lateinit var id: UUID
     private lateinit var projectID: UUID

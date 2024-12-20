@@ -10,7 +10,7 @@ data class ProjectMemberDTO(
     val userId: UUID = UUID.randomUUID(),
 )
 
-fun ProjectMemberEntity.toDto() : ProjectMemberDTO {
+fun ProjectMemberEntity.toDto(): ProjectMemberDTO {
     return ProjectMemberDTO(
         this.id,
         this.name,

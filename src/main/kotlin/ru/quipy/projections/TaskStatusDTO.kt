@@ -12,7 +12,7 @@ data class TaskStatusDTO(
     var priority: Int = 0,
 )
 
-fun TaskStatusEntity.toDto(tasks: List<TaskProjectionDTO>) : TaskStatusDTO {
+fun TaskStatusEntity.toDto(tasks: List<TaskProjectionDTO>): TaskStatusDTO {
     return TaskStatusDTO(
         this.id,
         this.name,

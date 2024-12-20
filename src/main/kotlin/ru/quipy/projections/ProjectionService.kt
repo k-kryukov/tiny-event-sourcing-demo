@@ -6,13 +6,14 @@ import java.util.*
 @Service
 class ProjectionService(
     val statusAndTasksProjection: TaskStatusAndTasksProjection,
-    val projectAndProjectMembersProjection: ProjectAndProjectMembersProjection
+    val projectAndProjectMembersProjection: ProjectAndProjectMembersProjection,
+    val userProjection: UserProjection,
 ) {
-    fun findTask(taskID : UUID) : TaskProjectionDTO? {
+    fun findTask(taskID: UUID): TaskProjectionDTO? {
         return statusAndTasksProjection.findTask(taskID)?.toDto()
     }
 
-    fun findProject(projectID : UUID) : ProjectDTO? {
+    fun findProject(projectID: UUID): ProjectDTO? {
         return projectAndProjectMembersProjection.findProject(projectID)?.toDto(
             resolveProjectMembersByProject(projectID),
             resolveStatusesByProject(projectID)
@@ -46,5 +47,13 @@ class ProjectionService(
                     resolveStatusesByProject(project.id)
                 )
             };
+    }
+
+    fun findUser(userID: UUID): UserDTO? {
+        return userProjection.findUser(userID)?.toDto()
+    }
+
+    fun listUsersByName(name: String): List<UserDTO> {
+        return userProjection.listUsersByName(name).map { user -> user.toDto() }
     }
 }
