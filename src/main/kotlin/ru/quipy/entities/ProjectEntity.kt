@@ -8,5 +8,5 @@ import javax.persistence.Id
 data class ProjectEntity(
     @Id
     val id: UUID = UUID.randomUUID(),
-    var name: String,
+    var name: String = "",
 )

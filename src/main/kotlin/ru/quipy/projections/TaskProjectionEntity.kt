@@ -8,7 +8,7 @@ import javax.persistence.Id
 data class TaskProjectionEntity(
     @Id
     val id: UUID = UUID.randomUUID(),
-    var name: String,
-    var description: String,
-    var statusID: UUID,
+    var name: String = "",
+    var description: String = "",
+    var statusID: UUID = UUID.randomUUID(),
 )

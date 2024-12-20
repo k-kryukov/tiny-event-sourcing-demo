@@ -6,9 +6,9 @@ import javax.persistence.Id
 
 data class TaskEntity(
     val id: UUID = UUID.randomUUID(),
-    var name: String,
-    var description: String,
-    var projectID: UUID,
-    var assignees: MutableList<UUID>,
-    var statusID: UUID,
+    var name: String = "",
+    var description: String = "",
+    var projectID: UUID = UUID.randomUUID(),
+    var assignees: MutableList<UUID> = mutableListOf(),
+    var statusID: UUID = UUID.randomUUID(),
 )

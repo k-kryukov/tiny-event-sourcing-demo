@@ -5,8 +5,11 @@ import kotlinx.coroutines.withContext
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import ru.quipy.api.*
+import ru.quipy.core.EventSourcingService
+import ru.quipy.entities.TaskEntity
 import ru.quipy.entities.TaskStatusEntity
 import ru.quipy.entities.TaskStatusRepository
+import ru.quipy.logic.TaskStatusAndTasksAggregateState
 import ru.quipy.streams.AggregateSubscriptionsManager
 import java.util.*
 import javax.annotation.PostConstruct
@@ -16,6 +19,7 @@ class TaskStatusAndTasksProjection(
     private val taskProjectionRepository: TaskProjectionRepository,
     private val taskStatusRepository: TaskStatusRepository,
     private val subManager: AggregateSubscriptionsManager,
+    val taskEsService: EventSourcingService<UUID, TaskStatusAndTasksAggregate, TaskStatusAndTasksAggregateState>,
 ) {
     @PostConstruct
     fun init() {
@@ -24,8 +28,8 @@ class TaskStatusAndTasksProjection(
                 withContext(Dispatchers.IO) {
                     taskStatusRepository.save(
                         TaskStatusEntity(
-                            event.id,
-                            event.name,
+                            event.statusID,
+                            event.statusName,
                             event.projectID,
                             event.color,
                             resolveStatusesByProject(event.projectID).size + 1,

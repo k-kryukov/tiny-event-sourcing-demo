@@ -8,8 +8,8 @@ import javax.persistence.Id
 data class TaskStatusEntity(
     @Id
     val id: UUID = UUID.randomUUID(),
-    var name: String,
-    var projectID: UUID,
-    var color: Color,
-    var priority: Int,
+    var name: String = "",
+    var projectID: UUID = UUID.randomUUID(),
+    var color: Color = Color.LIGHT_BLUE,
+    var priority: Int = 0,
 )

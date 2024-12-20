@@ -53,7 +53,7 @@ class ProjectionService(
         return userProjection.findUser(userID)?.toDto()
     }
 
-    fun listUsersByName(name: String): List<UserDTO> {
-        return userProjection.listUsersByName(name).map { user -> user.toDto() }
+    fun resolveUsersByName(name: String): List<UserDTO> {
+        return userProjection.resolveUsersByName(name).map { user -> user.toDto() }
     }
 }

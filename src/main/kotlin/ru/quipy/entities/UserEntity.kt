@@ -8,7 +8,7 @@ import javax.persistence.Id
 data class UserEntity(
     @Id
     val id: UUID = UUID.randomUUID(),
-    var login: String,
-    var name: String,
-    var password: String,
+    var login: String = "",
+    var name: String = "",
+    var password: String = "",
 )
