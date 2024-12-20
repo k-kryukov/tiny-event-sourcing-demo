@@ -21,7 +21,7 @@ class TaskStatusAndTasksController(
         @RequestParam statusID: UUID,
         @RequestParam name: String,
         @RequestParam description: String,
-    ) : TaskCreatedEvent {
+    ): TaskCreatedEvent {
         return taskEsService.update(taskAggregateID) {
             it.createTask(UUID.randomUUID(), name, description, statusID)
         }
@@ -33,7 +33,7 @@ class TaskStatusAndTasksController(
         @PathVariable taskID: UUID,
         @RequestParam name: String,
         @RequestParam description: String,
-    ) : TaskUpdatedEvent {
+    ): TaskUpdatedEvent {
         return taskEsService.update(taskAggregateID) {
             it.updateTask(taskID, name, description)
         }
@@ -44,7 +44,7 @@ class TaskStatusAndTasksController(
         @PathVariable taskAggregateID: UUID,
         @PathVariable taskID: UUID,
         @RequestParam statusID: UUID,
-    ) : StatusChangedForTaskEvent {
+    ): StatusChangedForTaskEvent {
         return taskEsService.update(taskAggregateID) {
             it.changeStatusForTask(taskID, statusID)
         }
@@ -54,7 +54,7 @@ class TaskStatusAndTasksController(
     fun deleteTaskStatus(
         @PathVariable taskAggregateID: UUID,
         @PathVariable statusID: UUID,
-    ) : StatusDeletedEvent {
+    ): StatusDeletedEvent {
         return taskEsService.update(taskAggregateID) {
             it.deleteTaskStatus(statusID)
         }
@@ -65,7 +65,7 @@ class TaskStatusAndTasksController(
         @PathVariable taskAggregateID: UUID,
         @PathVariable statusID: UUID,
         @RequestParam priority: Int,
-    ) : StatusPriorityChangedEvent {
+    ): StatusPriorityChangedEvent {
         return taskEsService.update(taskAggregateID) {
             it.changeTaskStatusPriority(statusID, priority)
         }
@@ -77,7 +77,7 @@ class TaskStatusAndTasksController(
     }
 
     @GetMapping("/tasks/{taskAggregateID}/task-statuses-and-tasks")
-    fun getTaskStatusesAndTasks(@PathVariable taskAggregateID: UUID) : TaskStatusAndTasksAggregateState? {
+    fun getTaskStatusesAndTasks(@PathVariable taskAggregateID: UUID): TaskStatusAndTasksAggregateState? {
         return taskEsService.getState(taskAggregateID)
     }
 
@@ -87,7 +87,7 @@ class TaskStatusAndTasksController(
         @RequestParam name: String,
         @RequestParam color: String,
         @RequestParam projectID: UUID
-    ) : TaskStatusCreatedEvent {
+    ): TaskStatusCreatedEvent {
         return taskEsService.update(taskAggregateID) {
             it.createTaskStatus(
                 UUID.randomUUID(),
@@ -100,7 +100,7 @@ class TaskStatusAndTasksController(
     }
 
     @GetMapping("/tasks/{taskAggregateID}/task-status/{id}")
-    fun getTaskStatus(@PathVariable taskAggregateID: UUID, @PathVariable id: UUID) : TaskStatusEntity? {
+    fun getTaskStatus(@PathVariable taskAggregateID: UUID, @PathVariable id: UUID): TaskStatusEntity? {
         return taskEsService.getState(taskAggregateID)?.getStatusByID(id)
     }
 
@@ -109,7 +109,7 @@ class TaskStatusAndTasksController(
         @PathVariable taskAggregateID: UUID,
         @PathVariable taskID: UUID,
         @RequestParam memberID: UUID,
-    ) : TaskAssigneeAddedEvent? {
+    ): TaskAssigneeAddedEvent? {
         return taskEsService.update(taskAggregateID) {
             it.addTaskAssignee(taskID, memberID)
         }

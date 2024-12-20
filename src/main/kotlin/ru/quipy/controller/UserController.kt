@@ -21,17 +21,26 @@ class UserController(
     val userEsService: EventSourcingService<UUID, UserAggregate, UserAggregateState>,
 ) {
     @PostMapping("/create")
-    fun createUser(@RequestParam login: String, @RequestParam name: String, @RequestParam password: String) : UserCreatedEvent {
+    fun createUser(
+        @RequestParam login: String,
+        @RequestParam name: String,
+        @RequestParam password: String
+    ): UserCreatedEvent {
         return userEsService.create { it.createUser(UUID.randomUUID(), login, name, password) }
     }
 
     @PostMapping("/update")
-    fun updateUser(@RequestParam id: UUID, @RequestParam login: String, @RequestParam name: String, @RequestParam password: String) : UserUpdatedEvent {
+    fun updateUser(
+        @RequestParam id: UUID,
+        @RequestParam login: String,
+        @RequestParam name: String,
+        @RequestParam password: String
+    ): UserUpdatedEvent {
         return userEsService.update(id) { it.updateUser(id, login, name, password) }
     }
 
     @GetMapping("/{id}")
-    fun getUser(@PathVariable id: UUID) : UserAggregateState? {
+    fun getUser(@PathVariable id: UUID): UserAggregateState? {
         return userEsService.getState(id)
     }
 }

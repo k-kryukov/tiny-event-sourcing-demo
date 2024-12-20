@@ -25,7 +25,7 @@ class ProjectAndProjectMembersController(
 ) {
 
     @PostMapping("/{projectID}/create-project-member")
-    fun createProjectMember(@PathVariable projectID: UUID, @RequestParam userID: UUID) : ProjectMemberCreatedEvent {
+    fun createProjectMember(@PathVariable projectID: UUID, @RequestParam userID: UUID): ProjectMemberCreatedEvent {
         val user = userEsService.getState(userID)
 
         return projectEsService.update(projectID) {
@@ -34,7 +34,7 @@ class ProjectAndProjectMembersController(
     }
 
     @GetMapping("/{projectID}/member/{memberID}")
-    fun getProjectMember(@PathVariable projectID: UUID, @PathVariable memberID: UUID) : ProjectMemberEntity? {
+    fun getProjectMember(@PathVariable projectID: UUID, @PathVariable memberID: UUID): ProjectMemberEntity? {
         return projectEsService.getState(projectID)?.getProjectMemberByID(memberID)
     }
 
@@ -42,7 +42,7 @@ class ProjectAndProjectMembersController(
     fun createProject(
         @RequestParam name: String,
         @RequestParam creatorID: UUID,
-    ) : ProjectCreatedEvent {
+    ): ProjectCreatedEvent {
         val user = userEsService.getState(creatorID)
 
         val response = projectEsService.create { it.createProject(UUID.randomUUID(), name) }
@@ -51,7 +51,13 @@ class ProjectAndProjectMembersController(
             it.createTaskStatus(UUID.randomUUID(), "CREATED", UUID.randomUUID(), Color.GREEN, response.projectID)
         }
         projectEsService.update(response.projectID) {
-            it.createProjectMember(UUID.randomUUID(), user?.getLogin(), user?.getName(), user?.getId(), response.projectID)
+            it.createProjectMember(
+                UUID.randomUUID(),
+                user?.getLogin(),
+                user?.getName(),
+                user?.getId(),
+                response.projectID
+            )
         }
         projectEsService.update(response.projectID) {
             it.addStatusAggregateID(response.projectID, taskResponse.aggregateID)
@@ -64,14 +70,14 @@ class ProjectAndProjectMembersController(
     fun updateProject(
         @RequestParam id: UUID,
         @RequestParam name: String,
-    ) : ProjectUpdatedEvent {
+    ): ProjectUpdatedEvent {
         val response = projectEsService.update(id) { it.updateProject(id, name) }
 
         return response
     }
 
     @GetMapping("/{id}")
-    fun getProject(@PathVariable id: UUID) : ProjectAndProjectMembersAggregateState? {
+    fun getProject(@PathVariable id: UUID): ProjectAndProjectMembersAggregateState? {
         return projectEsService.getState(id)
     }
 }
