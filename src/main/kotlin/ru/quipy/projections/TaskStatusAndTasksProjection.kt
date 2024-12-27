@@ -70,6 +70,13 @@ class TaskStatusAndTasksProjection(
                     taskProjectionRepository.save(task)
                 }
             }
+            `when`(StatusPriorityChangedEvent::class) { event ->
+                withContext(Dispatchers.IO) {
+                    val status = taskStatusRepository.getReferenceById(event.statusID)
+                    status.priority = event.priority
+                    taskStatusRepository.save(status)
+                }
+            }
         }
     }
 
