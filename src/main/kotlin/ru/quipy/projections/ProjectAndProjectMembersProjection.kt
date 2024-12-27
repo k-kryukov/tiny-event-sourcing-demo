@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service
 import ru.quipy.api.ProjectAndProjectMembersAggregate
 import ru.quipy.api.ProjectCreatedEvent
 import ru.quipy.api.ProjectMemberCreatedEvent
+import ru.quipy.api.ProjectUpdatedEvent
 import ru.quipy.entities.*
 import ru.quipy.streams.AggregateSubscriptionsManager
 import java.util.UUID
@@ -35,6 +36,16 @@ class ProjectAndProjectMembersProjection(
                 }
             }
             `when`(ProjectCreatedEvent::class) { event ->
+                withContext(Dispatchers.IO) {
+                    projectRepository.save(
+                        ProjectEntity(
+                            event.projectID,
+                            event.projectName
+                        )
+                    )
+                }
+            }
+            `when`(ProjectUpdatedEvent::class) { event ->
                 withContext(Dispatchers.IO) {
                     projectRepository.save(
                         ProjectEntity(
