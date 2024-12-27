@@ -43,7 +43,7 @@ class TaskStatusAndTasksProjectionTests {
             projectAggregate.getId()
         )
 
-        sleep(5000)  // Propagation delay
+        sleep(5000) // Propagation delay
 
         val project = projectionService.findProject(projectAggregate.getId())
         Assertions.assertNotNull(project!!)
@@ -53,6 +53,16 @@ class TaskStatusAndTasksProjectionTests {
                     taskStatus.name == statusCreatedEvent.statusName &&
                     taskStatus.color == statusCreatedEvent.color
         })
+
+        taskController.deleteTaskStatus(
+            taskAggregate.getId(),
+            statusCreatedEvent.statusID
+        )
+        sleep(5000) // Propagation delay
+
+        val updateProject = projectionService.findProject(projectAggregate.getId())
+        Assertions.assertNotNull(updateProject!!)
+        Assertions.assertEquals(updateProject.taskStatuses.size, 1)
     }
 
     @Test
@@ -102,6 +112,32 @@ class TaskStatusAndTasksProjectionTests {
         val tasksByStatus = projectionService.resolveTasksByStatus(statusCreatedEvent1.statusID)
         Assertions.assertEquals(tasksByStatus.size, 1)
         Assertions.assertTrue(tasksByProject.any { task -> task.id == task1.taskID })
+
+        val taskProjection = projectionService.findTask(task1.taskID)
+        Assertions.assertEquals(taskProjection!!.id, task1.taskID)
+        Assertions.assertEquals(taskProjection.name, task1.taskName)
+        Assertions.assertEquals(taskProjection.statusID, task1.statusID)
+        Assertions.assertEquals(taskProjection.description, task1.description)
+
+        taskController.changeStatusForTask(
+            taskAggregate.getId(),
+            task1.taskID,
+            statusCreatedEvent2.statusID,
+        )
+        val updatedTask = taskController.updateTask(
+            taskAggregate.getId(),
+            task1.taskID,
+            "Task1-update",
+            "Description1-update"
+        )
+
+        sleep(5000) // Propagation delay
+
+        val updatedTaskProjection = projectionService.findTask(task1.taskID)
+        Assertions.assertEquals(updatedTaskProjection!!.id, updatedTask.taskID)
+        Assertions.assertEquals(updatedTaskProjection.name, updatedTask.taskName)
+        Assertions.assertEquals(updatedTaskProjection.statusID, statusCreatedEvent2.statusID)
+        Assertions.assertEquals(updatedTaskProjection.description, updatedTask.description)
     }
 
     private fun createProject(ownerID: UUID): ProjectAndProjectMembersAggregateState? {

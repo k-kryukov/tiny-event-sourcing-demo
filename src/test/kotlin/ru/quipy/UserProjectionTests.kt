@@ -26,11 +26,26 @@ class UserProjectionTests {
 
         sleep(5000)  // Propagation delay
 
-        val user = projectionService.findUser(event.userID)
+        var user = projectionService.findUser(event.userID)
         Assertions.assertNotNull(user!!)
         Assertions.assertEquals(user.id, event.userID)
         Assertions.assertEquals(user.name, event.userName)
         Assertions.assertEquals(user.login, event.login)
+
+
+        val newEvent = userController.updateUser(
+            event.userID,
+            event.login,
+            event.userName + "-update",
+            event.password,
+        )
+        sleep(5000)
+
+        user = projectionService.findUser(event.userID)
+        Assertions.assertNotNull(user!!)
+        Assertions.assertEquals(user.id, newEvent.userID)
+        Assertions.assertEquals(user.name, newEvent.userName)
+        Assertions.assertEquals(user.login, newEvent.login)
     }
 
     @Test

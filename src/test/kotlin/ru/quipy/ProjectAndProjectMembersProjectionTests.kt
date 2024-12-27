@@ -41,7 +41,7 @@ class ProjectAndProjectMembersProjectionTests {
     }
 
     @Test
-    fun resolveProjectmembersByproject() {
+    fun resolveProjectMembersByProject() {
         val owner = userController.createUser(
             "Owner",
             "Owner",

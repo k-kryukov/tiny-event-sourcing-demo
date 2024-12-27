@@ -15,9 +15,6 @@ import java.util.*
 import javax.annotation.PostConstruct
 
 @Service
-@AggregateSubscriber(
-    aggregateClass = UserAggregate::class, subscriberName = "user-projection"
-)
 class UserProjection(
     private val userRepository: UserRepository,
     private val subManager: AggregateSubscriptionsManager,

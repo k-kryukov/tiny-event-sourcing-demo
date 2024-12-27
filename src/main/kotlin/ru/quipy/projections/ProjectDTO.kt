@@ -15,6 +15,6 @@ fun ProjectEntity.toDto(members: List<ProjectMemberDTO>, statuses: List<TaskStat
         this.id,
         this.name,
         members,
-        statuses
+        statuses.sortedBy { status -> status.priority }
     )
 }
