@@ -52,6 +52,11 @@ class ProjectAndProjectMembersProjectionTests {
             "ProjectMember",
             "testPassword"
         )
+        userController.createUser(
+            "ProjectMember",
+            "ProjectMember",
+            "testPassword"
+        )
         val projectCreatedEvent = projectController.createProject(
             "testProject",
             owner.userID
@@ -79,6 +84,7 @@ class ProjectAndProjectMembersProjectionTests {
             "Owner",
             "testPassword"
         )
+
         val projectCreatedEvent1 = projectController.createProject(
             "testProject1",
             owner.userID
@@ -86,6 +92,16 @@ class ProjectAndProjectMembersProjectionTests {
         val projectCreatedEvent2 = projectController.createProject(
             "testProject2",
             owner.userID
+        )
+
+        val owner2 = userController.createUser(
+            "Owner2",
+            "Owner2",
+            "testPassword2"
+        )
+         projectController.createProject(
+            "testProject2",
+            owner2.userID
         )
 
         sleep(5000)  // Propagation delay

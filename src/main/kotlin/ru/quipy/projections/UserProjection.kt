@@ -10,7 +10,6 @@ import ru.quipy.entities.UserEntity
 import ru.quipy.entities.UserRepository
 import ru.quipy.logic.UserAggregateState
 import ru.quipy.streams.AggregateSubscriptionsManager
-import ru.quipy.streams.annotation.AggregateSubscriber
 import java.util.*
 import javax.annotation.PostConstruct
 

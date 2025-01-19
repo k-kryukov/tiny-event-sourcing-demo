@@ -39,7 +39,7 @@ class UserProjectionTests {
             event.userName + "-update",
             event.password,
         )
-        sleep(5000)
+        sleep(5000) // Propagation delay
 
         user = projectionService.findUser(event.userID)
         Assertions.assertNotNull(user!!)

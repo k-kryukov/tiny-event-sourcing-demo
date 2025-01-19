@@ -138,6 +138,12 @@ class TaskStatusAndTasksProjectionTests {
         Assertions.assertEquals(updatedTaskProjection.name, updatedTask.taskName)
         Assertions.assertEquals(updatedTaskProjection.statusID, statusCreatedEvent2.statusID)
         Assertions.assertEquals(updatedTaskProjection.description, updatedTask.description)
+
+        val tasksByStatus2 = projectionService.resolveTasksByStatus(statusCreatedEvent1.statusID)
+        Assertions.assertEquals(tasksByStatus2.size, 0)
+
+        val tasksByStatus3 = projectionService.resolveTasksByStatus(statusCreatedEvent2.statusID)
+        Assertions.assertEquals(tasksByStatus3.size, 2)
     }
 
     private fun createProject(ownerID: UUID): ProjectAndProjectMembersAggregateState? {
